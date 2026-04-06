@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Back to the Future Time Circuits</title>
+<style>
+   body {
+     background: black;
+     color: #FF0000;
+     font-family: 'Digital-7 Mono', monospace;
+     text-align: center;
+     padding-top: 50px;
+   }
+   .clock-container {
+     display: inline-block;
+     text-align: left;
+     border: 4px solid #FF0000;
+     padding: 20px;
+     border-radius: 10px;
+   }
+   .field {
+     margin: 10px 0;
+     font-size: 30px;
+   }
+   .label {
+     color: #FFFF00;
+     font-weight: bold;
+     margin-right: 10px;
+   }
+   .time {
+     color: #00FF00;
+   }
+</style>
+</head>
+<body>
+<div class="clock-container">
+<div class="field"><span class="label">DETONATION CLOCK:</span><span class="time" id="detonation">1985-04-10 00:00:00</span></div>
+<div class="field"><span class="label">LAST DEPARTED:</span><span class="time" id="lastDeparted">1985-10-26 00:00:00</span></div>
+<div class="field"><span class="label">PRESENT:</span><span class="time" id="present"></span></div>
+</div>
+<script>
+   // Fixed Dates
+   const detonationClock = new Date(1985, 3, 10, 0, 0, 0); // April 10, 1985
+   const lastDeparted = new Date(1985, 9, 26, 0, 0, 0);   // October 26, 1985
+   // Start Present time at the same as Last Departed (can customize)
+   let presentTime = new Date(); // current real-world time as starting point
+   const tickInterval = 1000; // milliseconds per tick
+   function formatDate(date) {
+     const y = date.getFullYear();
+     const m = ("0" + (date.getMonth() + 1)).slice(-2);
+     const d = ("0" + date.getDate()).slice(-2);
+     const h = ("0" + date.getHours()).slice(-2);
+     const min = ("0" + date.getMinutes()).slice(-2);
+     const s = ("0" + date.getSeconds()).slice(-2);
+     return `${y}-${m}-${d} ${h}:${min}:${s}`;
+   }
+   // Initialize fixed clocks
+   document.getElementById('detonation').textContent = formatDate(detonationClock);
+   document.getElementById('lastDeparted').textContent = formatDate(lastDeparted);
+   // Function to increment the Present time independently
+   function updatePresent() {
+     presentTime = new Date(presentTime.getTime() + tickInterval);
+     document.getElementById('present').textContent = formatDate(presentTime);
+     setTimeout(updatePresent, tickInterval);
+   }
+   updatePresent();
+</script>
+</body>
+</html>
